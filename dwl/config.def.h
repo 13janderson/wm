@@ -84,12 +84,13 @@ static int log_level = WLR_ERROR;
 
 // Regex rules, ONLY APPLYING FIRST ONE
 static const Rule rules[] = {
-    /* app_id             title       tags mask     switchtotag   singleton   isfloating
-       monitor */
+    /* app_id             title       tags mask     switchtotag   singleton
+       isfloating monitor */
     /* examples: */
-    {"Gimp_EXAMPLE", NULL, 0, 0, 1, 0, -1}, /* Start on currently visible tags floating, not tiled */
-    {"spotify", NULL, 1 << 8, 1, 1, 0, -1},     /* Start spotify on ONLY tag "9" */
-    {"chrome", "youtube", 1 << 2, 1, 1, 0, -1}, /* Start yt on ONLY tag "3" */
+    {"Gimp_EXAMPLE", NULL, 0, 0, 1, 0,
+     -1}, /* Start on currently visible tags floating, not tiled */
+    {"spotify", NULL, 1 << 8, 1, 1, 0, -1}, /* Start spotify on ONLY tag "9" */
+    {"chrome", "youtube", 1 << 2, 1, 1, 0, -1},  /* Start yt on ONLY tag "3" */
     {"chrome", "whatsapp", 1 << 3, 1, 1, 0, -1}, /* Start yt on ONLY tag "4" */
     // Just new tabs
     {"chrome", NULL, 1 << 1, 1, 0, 0, 0, -1}, /* Start chrome on ONLY tag "2" */
@@ -265,7 +266,7 @@ static const Key keys[] = {
     // {MODKEY, XKB_KEY_o, setlayout, {.v = &layouts[2]}},
     {MODKEY, XKB_KEY_space, setlayout, {0}},
     {MODKEY | WLR_MODIFIER_SHIFT, XKB_KEY_space, togglefloating, {0}},
-    {MODKEY, XKB_KEY_e, togglefullscreen, {0}},
+    {MODKEY, XKB_KEY_f, togglefullscreen, {0}},
     {MODKEY, XKB_KEY_0, view, {.ui = ~0}},
     {MODKEY | WLR_MODIFIER_SHIFT, XKB_KEY_parenright, tag, {.ui = ~0}},
     {MODKEY, XKB_KEY_comma, focusmon, {.i = WLR_DIRECTION_LEFT}},
