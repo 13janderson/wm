@@ -92,7 +92,8 @@ static const Rule rules[] = {
     // {"spotify", NULL, 1 << 8, 1, 1, 0, -1}, /* Start spotify on ONLY tag "9" */
     {"chrome", "spotify", 1 << 8, 1, 1, 0, -1}, /* Start spotify on ONLY tag "9" */
     {"chrome", "youtube", 1 << 2, 1, 1, 0, -1},  /* Start yt on ONLY tag "3" */
-    {"chrome", "whatsapp", 1 << 3, 1, 1, 0, -1}, /* Start yt on ONLY tag "4" */
+    {"chrome", "whatsapp", 1 << 3, 1, 1, 0, -1}, /* Start wa on ONLY tag "4" */
+    {"chrome", "chatgpt", 1 << 1, 1, 0, 0, -1}, /* Start chatgpt on ONLY tag "2" */
     // Just new tabs
     {"chrome", NULL, 1 << 1, 1, 0, 0, 0, -1}, /* Start chrome on ONLY tag "2" */
 };
@@ -181,8 +182,8 @@ LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE
 */
 
 static const enum libinput_config_accel_profile trackpad_accel_profile =
-    LIBINPUT_CONFIG_ACCEL_PROFILE_FLAT;
-static const double trackpad_accel_speed = 0.75;
+    LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE;
+static const double trackpad_accel_speed = 0.6;
 static const enum libinput_config_accel_profile mouse_accel_profile =
     LIBINPUT_CONFIG_ACCEL_PROFILE_FLAT;
 static const double mouse_accel_speed = -0.60;
@@ -219,7 +220,6 @@ static const char *ytcmd[] = {"google-chrome-stable",
                               "--app=https://youtube.com", NULL};
 static const char *aicmd[] = {"google-chrome-stable", "https://chatgpt.com",
                               NULL};
-
 static const char *wacmd[] = {"google-chrome-stable",
                               "--app=https://web.whatsapp.com", NULL};
 static const char *spotcmd[] = {"google-chrome-stable",
