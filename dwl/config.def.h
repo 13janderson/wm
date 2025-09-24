@@ -89,7 +89,8 @@ static const Rule rules[] = {
     /* examples: */
     {"Gimp_EXAMPLE", NULL, 0, 0, 1, 0,
      -1}, /* Start on currently visible tags floating, not tiled */
-    {"spotify", NULL, 1 << 8, 1, 1, 0, -1}, /* Start spotify on ONLY tag "9" */
+    // {"spotify", NULL, 1 << 8, 1, 1, 0, -1}, /* Start spotify on ONLY tag "9" */
+    {"chrome", "spotify", 1 << 8, 1, 1, 0, -1}, /* Start spotify on ONLY tag "9" */
     {"chrome", "youtube", 1 << 2, 1, 1, 0, -1},  /* Start yt on ONLY tag "3" */
     {"chrome", "whatsapp", 1 << 3, 1, 1, 0, -1}, /* Start yt on ONLY tag "4" */
     // Just new tabs
@@ -221,8 +222,8 @@ static const char *aicmd[] = {"google-chrome-stable", "https://chatgpt.com",
 
 static const char *wacmd[] = {"google-chrome-stable",
                               "--app=https://web.whatsapp.com", NULL};
-static const char *spotcmd[] = {"spotify", "--enable-features=UseOzonePlatform",
-                                "--ozone-platform=wayland", NULL};
+static const char *spotcmd[] = {"google-chrome-stable",
+                                "--app=https://open.spotify.com", NULL};
 static const char *menucmd[] = {"wmenu-run", NULL};
 static const char *screenshotcmd[] = {"/run/current-system/sw/bin/snip", NULL};
 static const char *snip[] = {"$HOME/scripts/snip.sh", NULL};
