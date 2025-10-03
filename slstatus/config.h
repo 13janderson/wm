@@ -67,7 +67,7 @@ static const char unknown_str[] = "n/a";
 
 static const struct arg args[] = {
     /* function format                 argument */
-    { battery_perc, "\033[33;4mBat: %s%%\033[0m | ", "BAT1" },     // Yellow + underlined
+    { battery_with_state, "\033[33;4mBat: %s\033[0m | ", "BAT1" }, // Yellow + underlined
     { disk_perc,    "\033[34;4mDisk: %s%%\033[0m | ", "/" },         // Blue disk usage
     { ram_perc,     "\033[31;4mRAM: %s%%\033[0m | ", NULL },         // Red memory usage
     { cpu_perc,     "\033[32;4mCPU: %s%%\033[0m | ", NULL },         // Green CPU usage
