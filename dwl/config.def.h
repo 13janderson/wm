@@ -163,7 +163,7 @@ LIBINPUT_CONFIG_ACCEL_PROFILE_FLAT
 LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE
 */
 static const enum libinput_config_accel_profile accel_profile =
-    LIBINPUT_CONFIG_ACCEL_PROFILE_FLAT;
+    LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE;
 static const double accel_speed = 0.0;
 
 /* You can choose between:
@@ -194,6 +194,10 @@ static const enum libinput_config_tap_button_map button_map =
 /* commands */
 static const char *termcmd[] = {"wezterm", NULL};
 static const char *browcmd[] = {"google-chrome-stable", NULL};
+static const char *ytcmd[] = {"google-chrome-stable", "https://youtube.com",
+                              NULL};
+static const char *aicmd[] = {"google-chrome-stable", "https://chatgpt.com",
+                              NULL};
 static const char *spotcmd[] = {"spotify", "--enable-features=UseOzonePlatform",
                                 "--ozone-platform=wayland", NULL};
 static const char *menucmd[] = {"wmenu-run", NULL};
@@ -212,6 +216,8 @@ static const Key keys[] = {
     {MODKEY, XKB_KEY_d, spawn, {.v = wmenucmd}},
     {MODKEY, XKB_KEY_b, spawn, {.v = browcmd}},
     {MODKEY, XKB_KEY_m, spawn, {.v = spotcmd}},
+    {MODKEY, XKB_KEY_y, spawn, {.v = ytcmd}},
+    {MODKEY, XKB_KEY_g, spawn, {.v = aicmd}},
     {MODKEY, XKB_KEY_Return, spawn, {.v = termcmd}},
     // { WLR_MODIFIER_CTRL,         XKB_KEY_F12,        spawn,          {.v =
     // snip} }, { MODKEY,                    XKB_KEY_s,          spawn,
