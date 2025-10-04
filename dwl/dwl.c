@@ -9,6 +9,7 @@
 #include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
+#include <regex.h>
 #include <wayland-server-core.h>
 #include <wlr/backend.h>
 #include <wlr/backend/libinput.h>
@@ -143,6 +144,7 @@ typedef struct {
 	unsigned int bw;
 	uint32_t tags;
 	int isfloating, isurgent, isfullscreen;
+	int switchtotag;
 	uint32_t resize; /* configure serial of a pending resize */
 } Client;
 
@@ -249,6 +251,7 @@ typedef struct {
 	const char *id;
 	const char *title;
 	uint32_t tags;
+	bool switchtotag;
 	int isfloating;
 	int monitor;
 } Rule;
@@ -264,7 +267,7 @@ typedef struct {
 
 /* function declarations */
 static void applybounds(Client *c, struct wlr_box *bbox);
-static void applyrules(Client *c);
+static void applyrules(Client *c, bool map);
 static void arrange(Monitor *m);
 static void arrangelayer(Monitor *m, struct wl_list *list,
 		struct wlr_box *usable_area, int exclusive);
@@ -386,6 +389,7 @@ static Monitor *xytomon(double x, double y);
 static void xytonode(double x, double y, struct wlr_surface **psurface,
 		Client **pc, LayerSurface **pl, double *nx, double *ny);
 static void zoom(const Arg *arg);
+static int regex_match(const char *pattern, const char *str);
 
 /* variables */
 static pid_t child_pid = -1;
@@ -518,7 +522,7 @@ applybounds(Client *c, struct wlr_box *bbox)
 }
 
 void
-applyrules(Client *c)
+applyrules(Client *c, bool map)
 {
 	/* rule matching */
 	const char *appid, *title;
@@ -531,14 +535,19 @@ applyrules(Client *c)
 	title = client_get_title(c);
 
 	for (r = rules; r < END(rules); r++) {
-		if ((!r->title || strstr(title, r->title))
-				&& (!r->id || strstr(appid, r->id))) {
+		if ((!r->title || regex_match(r->title, title))
+				&& (!r->id || regex_match(r->id, appid))) {
 			c->isfloating = r->isfloating;
 			newtags |= r->tags;
 			i = 0;
 			wl_list_for_each(m, &mons, link) {
 				if (r->monitor == i++)
 					mon = m;
+			}
+			if (r->switchtotag && map) {
+				c->switchtotag = selmon->tagset[selmon->seltags];
+				mon->seltags ^= 1;
+				mon->tagset[selmon->seltags] = r->tags & TAGMASK;
 			}
 		}
 	}
@@ -1143,7 +1152,7 @@ commitnotify(struct wl_listener *listener, void *data)
 		 * a different monitor based on its title, this will likely select
 		 * a wrong monitor.
 		 */
-		applyrules(c);
+		applyrules(c, false);
 		if (c->mon) {
 			client_set_scale(client_surface(c), c->mon->wlr_output->scale);
 		}
@@ -2206,7 +2215,7 @@ mapnotify(struct wl_listener *listener, void *data)
 		c->isfloating = 1;
 		setmon(c, p->mon, p->tags);
 	} else {
-		applyrules(c);
+		applyrules(c, true);
 	}
 	drawbars();
 
@@ -3255,6 +3264,14 @@ unmapnotify(struct wl_listener *listener, void *data)
 		wl_list_remove(&c->flink);
 	}
 
+	if (c->switchtotag) {
+		Arg a = { .ui = c->switchtotag };
+		// Call view() -> arrange() -> checkidleinhibitor() before
+		// wlr_scene_node_destroy() to prevent a rare use after free of
+		// tree->node.
+		view(&a);
+	}
+
 	wlr_scene_node_destroy(&c->scene->node);
 	drawbars();
 	motionnotify(0, NULL, 0, 0, 0, 0);
@@ -3539,6 +3556,19 @@ zoom(const Arg *arg)
 
 	focusclient(sel, 1);
 	arrange(selmon);
+}
+
+int
+regex_match(const char *pattern, const char *str) {
+  regex_t regex;
+  int reti;
+  if (regcomp(&regex, pattern, REG_EXTENDED) != 0)
+    return 0;
+  reti = regexec(&regex, str, (size_t)0, NULL, 0);
+  regfree(&regex);
+  if (reti == 0)
+    return 1;
+  return 0;
 }
 
 #ifdef XWAYLAND

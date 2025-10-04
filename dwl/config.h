@@ -80,11 +80,12 @@ static int log_level = WLR_ERROR;
 /* NOTE: ALWAYS keep a rule declared even if you don't use rules (e.g leave at
  * least one example) */
 static const Rule rules[] = {
-    /* app_id             title       tags mask     isfloating   monitor */
+    /* app_id             title       tags mask     switchtotag   isfloating monitor */
     /* examples: */
-    {"Gimp_EXAMPLE", NULL, 0, 1,
+    {"Gimp_EXAMPLE", NULL, 0, 0, 1,
      -1}, /* Start on currently visible tags floating, not tiled */
-    {"firefox_EXAMPLE", NULL, 1 << 8, 0, -1}, /* Start on ONLY tag "9" */
+    {"spotify", NULL, 1 << 8, 1, 0, -1}, /* Start spotify on ONLY tag "9" */
+    {"chrome", NULL, 1 << 1, 1, 0, -1},  /* Start chrome on ONLY tag "2" */
 };
 
 /* layout(s) */
@@ -188,7 +189,7 @@ static const enum libinput_config_tap_button_map button_map =
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd)                                                             \
   {                                                                            \
-    .v = (const char *[]) { "/usr/bin/zsh", "-c", cmd, NULL }                       \
+    .v = (const char *[]) { "/usr/bin/zsh", "-c", cmd, NULL }                  \
   }
 
 /* commands */
