@@ -1,8 +1,6 @@
 #!/bin/sh
 
-# /usr/bin/pipewire &
-# /usr/bin/pipewire-pulse &
-# /usr/bin/wireplumber &
-# /usr/bin/pipewire-media-session &
-
+# Enable hotkey daemon
+swhks & swhkd &
 slstatus -s | dwl -s "sh -c 'swaybg -i $HOME/wallpapers/wallhaven-tree.jpg'"
+
