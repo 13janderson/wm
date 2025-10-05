@@ -3032,8 +3032,10 @@ void tag(const Arg *arg) {
 
 void tagmon(const Arg *arg) {
   Client *sel = focustop(selmon);
-  if (sel)
+  if (sel) {
     setmon(sel, dirtomon(arg->i), 0);
+    focusmon(arg);
+  }
 }
 
 void tile(Monitor *m) {
