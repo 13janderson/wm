@@ -13,7 +13,7 @@ static const int smartgaps =
     0;               /* 1 means no outer gap when there is only one window */
 static int gaps = 1; /* 1 means gaps between windows are added */
 static const unsigned int gappx = 3;    /* gap pixel between windows */
-static const unsigned int borderpx = 2; /* border pixel of windows */
+static const unsigned int borderpx = 3; /* border pixel of windows */
 static const int showbar = 1;           /* 0 means no bar */
 static const int topbar = 1;            /* 0 means bottom bar */
 static const char *fonts[] = {
