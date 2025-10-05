@@ -7,7 +7,8 @@ static const int sloppyfocus = 1; /* focus follows mouse */
 static const int bypass_surface_visibility =
     0; /* 1 means idle inhibitors will disable idle tracking even if it's
           surface isn't visible  */
-static const int follow                    = 1;  /* 1 means follow windows when sent to another tag */
+static const int follow =
+    1; /* 1 means follow windows when sent to another tag */
 static const int smartgaps =
     0;               /* 1 means no outer gap when there is only one window */
 static int gaps = 1; /* 1 means gaps between windows are added */
@@ -81,7 +82,8 @@ static int log_level = WLR_ERROR;
 /* NOTE: ALWAYS keep a rule declared even if you don't use rules (e.g leave at
  * least one example) */
 static const Rule rules[] = {
-    /* app_id             title       tags mask     switchtotag   isfloating monitor */
+    /* app_id             title       tags mask     switchtotag   isfloating
+       monitor */
     /* examples: */
     {"Gimp_EXAMPLE", NULL, 0, 0, 1,
      -1}, /* Start on currently visible tags floating, not tiled */
@@ -112,8 +114,8 @@ static const MonitorRule monrules[] = {
     */
     /* defaults */
     {"eDP-1", 0.5f, 1, 1.75, &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, -1, -1},
-    // { NULL,       0.55f, 1,      1,    &layouts[0],
-    // WL_OUTPUT_TRANSFORM_NORMAL,   -1,  -1 },
+    /* Fallback rule I guess */
+    {NULL, 0.55f, 1, 1, &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, -1, -1},
 };
 
 /* keyboard */
@@ -240,7 +242,8 @@ static const Key keys[] = {
     {MODKEY, XKB_KEY_w, killclient, {0}},
     {MODKEY, XKB_KEY_t, setlayout, {.v = &layouts[0]}},
     {MODKEY, XKB_KEY_f, setlayout, {.v = &layouts[1]}},
-    {MODKEY, XKB_KEY_o, setlayout, {.v = &layouts[2]}},
+    {MODKEY, XKB_KEY_o, spawn, SHCMD("$HOME/dfiles/lock.sh")},
+    // {MODKEY, XKB_KEY_o, setlayout, {.v = &layouts[2]}},
     {MODKEY, XKB_KEY_space, setlayout, {0}},
     {MODKEY | WLR_MODIFIER_SHIFT, XKB_KEY_space, togglefloating, {0}},
     {MODKEY, XKB_KEY_e, togglefullscreen, {0}},
