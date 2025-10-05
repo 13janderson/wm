@@ -2,7 +2,7 @@
 
 # Enable hotkey daemon
 swhks & swhkd &
-slstatus -s | dwl -s "sh -c 'swaybg -i $HOME/wallpapers/wallhaven-tree.jpg.jpg'" &
+slstatus -s | dwl -s "sh -c 'swaybg -i $HOME/wallpapers/wallpaper.jpg'" &
 
 source $HOME/dfiles/lock.sh
 
