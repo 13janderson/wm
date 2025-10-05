@@ -113,8 +113,10 @@ static const MonitorRule monrules[] = {
     -1,  -1 },
     */
     /* defaults */
-    {"DP-1", 0.5f, 1, 1, &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, -1, -1},
+    // Has to be first otherwise bork
     {"eDP-1", 0.5f, 1, 1.75, &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, -1, -1},
+    // Unsure if this is doing anything but we move
+    {"DP-1", 0.5f, 1, 1, &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, -1, -1},
     /* Fallback rule I guess */
     {NULL, 0.55f, 1, 1, &layouts[0], WL_OUTPUT_TRANSFORM_NORMAL, -1, -1},
 };
@@ -173,11 +175,11 @@ LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE
 */
 
 static const enum libinput_config_accel_profile trackpad_accel_profile =
-    LIBINPUT_CONFIG_ACCEL_PROFILE_ADAPTIVE;
-static const double trackpad_accel_speed = -0.175;
+    LIBINPUT_CONFIG_ACCEL_PROFILE_FLAT;
+static const double trackpad_accel_speed = 0.75;
 static const enum libinput_config_accel_profile mouse_accel_profile =
     LIBINPUT_CONFIG_ACCEL_PROFILE_FLAT;
-static const double mouse_accel_speed = -0.75;
+static const double mouse_accel_speed = -0.60;
 
 /* You can choose between:
 LIBINPUT_CONFIG_TAP_MAP_LRM -- 1/2/3 finger tap maps to left/right/middle
