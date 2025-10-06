@@ -1,9 +1,8 @@
 #!/bin/sh
 
 # Enable hotkey daemon
-swhks & swhkd &
+swhks & swhkd & 
 slstatus -s | dwl -s "sh -c 'swaybg -i $HOME/wallpapers/wallpaper.jpg'" &
-
 source $HOME/dfiles/lock.sh
 
 # Kill hotkey daemon so that it can
@@ -11,6 +10,6 @@ source $HOME/dfiles/lock.sh
 # that we exited dwl and went back to a TTY
 # and had to start dwl again
 while [ -S "$XDG_RUNTIME_DIR/wayland-0" ]; do
-    sleep 1
+  echo "" >> /dev/null
 done
 killall swhkd
