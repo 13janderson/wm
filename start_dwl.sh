@@ -2,7 +2,7 @@
 
 # Enable hotkey daemon
 swhks & swhkd & 
-slstatus -s | dwl -s "sh -c 'swaybg -i $HOME/wallpapers/wallpaper.jpg'" &
+slstatus -s | dwl -s "sh -c 'swaybg -i $HOME/wallpapers/wallpaper.jpg'" >> /$HOME/.dwl.log &
 source $HOME/wl/lock.sh
 
 # Kill hotkey daemon so that it can
