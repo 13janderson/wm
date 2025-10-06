@@ -262,7 +262,7 @@ static const Key keys[] = {
     {MODKEY, XKB_KEY_w, killclient, {0}},
     {MODKEY, XKB_KEY_t, setlayout, {.v = &layouts[0]}},
     {MODKEY, XKB_KEY_f, setlayout, {.v = &layouts[1]}},
-    {MODKEY, XKB_KEY_o, spawn, SHCMD("$HOME/dfiles/lock.sh")},
+    {MODKEY, XKB_KEY_o, spawn, SHCMD("$HOME/wl/lock.sh")},
     // {MODKEY, XKB_KEY_o, setlayout, {.v = &layouts[2]}},
     {MODKEY, XKB_KEY_space, setlayout, {0}},
     {MODKEY | WLR_MODIFIER_SHIFT, XKB_KEY_space, togglefloating, {0}},

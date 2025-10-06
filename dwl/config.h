@@ -81,6 +81,8 @@ static int log_level = WLR_ERROR;
 
 /* NOTE: ALWAYS keep a rule declared even if you don't use rules (e.g leave at
  * least one example) */
+
+// Regex rules, ONLY APPLYING FIRST ONE
 static const Rule rules[] = {
     /* app_id             title       tags mask     switchtotag   isfloating
        monitor */
@@ -89,10 +91,9 @@ static const Rule rules[] = {
      -1}, /* Start on currently visible tags floating, not tiled */
     {"spotify", NULL, 1 << 8, 1, 0, -1},     /* Start spotify on ONLY tag "9" */
     {"chrome", "youtube", 1 << 2, 1, 0, -1}, /* Start yt on ONLY tag "3" */
-    {"chrome", "whatsapp", 1 << 4, 1, 0, -1}, /* Start yt on ONLY tag "4" */
+    {"chrome", "whatsapp", 1 << 3, 1, 0, -1}, /* Start yt on ONLY tag "4" */
     // Just new tabs
-    {"chrome", "Google Chrome", 1 << 1, 1, 0,
-     -1}, /* Start chrome on ONLY tag "2" */
+    {"chrome", NULL, 1 << 1, 1, 0, -1}, /* Start chrome on ONLY tag "2" */
 };
 
 /* layout(s) */
@@ -261,7 +262,7 @@ static const Key keys[] = {
     {MODKEY, XKB_KEY_w, killclient, {0}},
     {MODKEY, XKB_KEY_t, setlayout, {.v = &layouts[0]}},
     {MODKEY, XKB_KEY_f, setlayout, {.v = &layouts[1]}},
-    {MODKEY, XKB_KEY_o, spawn, SHCMD("$HOME/dfiles/lock.sh")},
+    {MODKEY, XKB_KEY_o, spawn, SHCMD("$HOME/wl/lock.sh")},
     // {MODKEY, XKB_KEY_o, setlayout, {.v = &layouts[2]}},
     {MODKEY, XKB_KEY_space, setlayout, {0}},
     {MODKEY | WLR_MODIFIER_SHIFT, XKB_KEY_space, togglefloating, {0}},
