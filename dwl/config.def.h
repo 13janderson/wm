@@ -90,7 +90,9 @@ static const Rule rules[] = {
     {"spotify", NULL, 1 << 8, 1, 0, -1},     /* Start spotify on ONLY tag "9" */
     {"chrome", "youtube", 1 << 2, 1, 0, -1}, /* Start yt on ONLY tag "3" */
     {"chrome", "whatsapp", 1 << 4, 1, 0, -1}, /* Start yt on ONLY tag "4" */
-    {"chrome", NULL, 1 << 1, 1, 0, -1},       /* Start chrome on ONLY tag "2" */
+    // Just new tabs
+    {"chrome", "Google Chrome", 1 << 1, 1, 0,
+     -1}, /* Start chrome on ONLY tag "2" */
 };
 
 /* layout(s) */

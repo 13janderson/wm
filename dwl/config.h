@@ -87,8 +87,12 @@ static const Rule rules[] = {
     /* examples: */
     {"Gimp_EXAMPLE", NULL, 0, 0, 1,
      -1}, /* Start on currently visible tags floating, not tiled */
-    {"spotify", NULL, 1 << 8, 1, 0, -1}, /* Start spotify on ONLY tag "9" */
-    {"chrome", NULL, 1 << 1, 1, 0, -1},  /* Start chrome on ONLY tag "2" */
+    {"spotify", NULL, 1 << 8, 1, 0, -1},     /* Start spotify on ONLY tag "9" */
+    {"chrome", "youtube", 1 << 2, 1, 0, -1}, /* Start yt on ONLY tag "3" */
+    {"chrome", "whatsapp", 1 << 4, 1, 0, -1}, /* Start yt on ONLY tag "4" */
+    // Just new tabs
+    {"chrome", "Google Chrome", 1 << 1, 1, 0,
+     -1}, /* Start chrome on ONLY tag "2" */
 };
 
 /* layout(s) */
@@ -209,10 +213,13 @@ static const enum libinput_config_tap_button_map button_map =
 /* commands */
 static const char *termcmd[] = {"wezterm", NULL};
 static const char *browcmd[] = {"google-chrome-stable", NULL};
-static const char *ytcmd[] = {"google-chrome-stable", "https://youtube.com",
-                              NULL};
+static const char *ytcmd[] = {"google-chrome-stable",
+                              "--app=https://youtube.com", NULL};
 static const char *aicmd[] = {"google-chrome-stable", "https://chatgpt.com",
                               NULL};
+
+static const char *wacmd[] = {"google-chrome-stable",
+                              "--app=https://web.whatsapp.com", NULL};
 static const char *spotcmd[] = {"spotify", "--enable-features=UseOzonePlatform",
                                 "--ozone-platform=wayland", NULL};
 static const char *menucmd[] = {"wmenu-run", NULL};
@@ -231,6 +238,7 @@ static const Key keys[] = {
     {MODKEY, XKB_KEY_d, spawn, {.v = wmenucmd}},
     {MODKEY, XKB_KEY_b, spawn, {.v = browcmd}},
     {MODKEY, XKB_KEY_m, spawn, {.v = spotcmd}},
+    {MODKEY | WLR_MODIFIER_SHIFT, XKB_KEY_M, spawn, {.v = wacmd}},
     {MODKEY, XKB_KEY_y, spawn, {.v = ytcmd}},
     {MODKEY, XKB_KEY_g, spawn, {.v = aicmd}},
     {MODKEY, XKB_KEY_Return, spawn, {.v = termcmd}},

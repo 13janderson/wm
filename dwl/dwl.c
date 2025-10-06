@@ -622,6 +622,8 @@ void applyrules(Client *c, bool map) {
         mon->seltags ^= 1;
         mon->tagset[selmon->seltags] = r->tags & TAGMASK;
       }
+      // Only match the first rule
+      break;
     }
   }
 
