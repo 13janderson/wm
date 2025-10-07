@@ -291,6 +291,7 @@ typedef struct {
   const char *title;
   uint32_t tags;
   bool switchtotag;
+  bool singleton;
   int isfloating;
   int monitor;
 } Rule;
@@ -609,6 +610,11 @@ void applyrules(Client *c, bool map) {
   appid = client_get_appid(c);
   title = client_get_title(c);
 
+  printf("[singleton-debug] New client: %p, appid=%s, "
+         "title=%s, monitor=%s\n",
+         (void *)e, appid ? appid : "(null)", title ? title : "(null)",
+         c->mon ? c->mon->wlr_output->name : "(null)");
+
   for (r = rules; r < END(rules); r++) {
     if ((!r->title || regex_match(r->title, title)) &&
         (!r->id || regex_match(r->id, appid))) {
@@ -625,48 +631,59 @@ void applyrules(Client *c, bool map) {
         mon->seltags ^= 1;
         mon->tagset[selmon->seltags] = r->tags & TAGMASK;
       }
-      // If we have a regex match then check for existing apps
-      wl_list_for_each(e, &fstack, flink) {
-        const char *c_appid = client_get_appid(e);
-        const char *c_title = client_get_title(e);
 
-        printf("[singleton-debug] Checking existing client: %p, appid=%s, "
-               "title=%s, monitor=%s\n",
-               (void *)e, c_appid ? c_appid : "(null)",
-               c_title ? c_title : "(null)",
-               e->mon ? e->mon->wlr_output->name : "(null)");
+      if (r->singleton) {
+        wl_list_for_each(e, &fstack, flink) {
+          const char *c_appid = client_get_appid(e);
+          const char *c_title = client_get_title(e);
 
-        if ((!r->title || regex_match(r->title, c_title)) &&
-            (!r->id || regex_match(r->id, c_appid))) {
-          printf("[singleton-debug] Rule matched for client: %p, appid=%s\n",
-                 (void *)e, c_appid ? c_appid : "(null)");
+          printf("[singleton-debug] Checking existing client: %p, appid=%s, "
+                 "title=%s, monitor=%s\n",
+                 (void *)e, c_appid ? c_appid : "(null)",
+                 c_title ? c_title : "(null)",
+                 e->mon ? e->mon->wlr_output->name : "(null)");
 
-          // if (strcmp(c_appid, appid) == 0 && VISIBLEON(c, e->mon)) {
-          if (strcmp(c_appid, appid) == 0 && e != c) {
-            existing = e;
-            printf("[singleton-debug] Found existing instance: %p,\
+          if (e == c)
+            continue;
+
+          // We match an existing client if its title matches or app id
+          // matches the rule as well.
+          // In this case, we do not launch the new client and instead
+          // focus the existing one.
+          if ((!r->title || regex_match(r->title, c_title)) ||
+              (!r->id || regex_match(r->id, c_appid))) {
+            printf("[singleton-debug] Rule matched for client: %p, appid=%s\n",
+                   (void *)e, c_appid ? c_appid : "(null)");
+
+            // if (strcmp(c_appid, appid) == 0 && VISIBLEON(c, e->mon)) {
+            // do we care if its visible or not? I dont think so atm
+            if (strcmp(c_appid, appid) == 0) {
+              existing = e;
+              printf("[singleton-debug] Found existing instance: %p,\
                    appid = % s\n",
-                   (void *)existing, c_appid ? c_appid : "(null)");
-            break;
+                     (void *)existing, c_appid ? c_appid : "(null)");
+              break;
+            }
           }
         }
-      }
 
-      if (existing) {
-        printf("[singleton-debug] Switching to existing client: %p, appid=%s\n",
-               (void *)existing,
-               client_get_appid(existing) ? client_get_appid(existing)
-                                          : "(null)");
-        /* Switch to existing client */
-        selmon = existing->mon;
-        Arg a = {.ui = existing->tags};
-        view(&a);
-        focusclient(existing, 1);
-        printf("[singleton-debug] Closing new client: %p, appid=%s\n",
-               (void *)c, appid ? appid : "(null");
-        /* Close the new client */
-        client_send_close(c);
-        return;
+        if (existing) {
+          printf(
+              "[singleton-debug] Switching to existing client: %p, appid=%s\n",
+              (void *)existing,
+              client_get_appid(existing) ? client_get_appid(existing)
+                                         : "(null)");
+          /* Switch to existing client */
+          selmon = existing->mon;
+          Arg a = {.ui = existing->tags};
+          view(&a);
+          focusclient(existing, 1);
+          printf("[singleton-debug] Closing new client: %p, appid=%s\n",
+                 (void *)c, appid ? appid : "(null");
+          /* Close the new client */
+          client_send_close(c);
+          return;
+        }
       }
 
       // Only match the first rule
