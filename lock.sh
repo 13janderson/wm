@@ -5,4 +5,5 @@ while [ ! -S "$XDG_RUNTIME_DIR/wayland-0" ]; do
 done
 
 hypridle &
-hyprlock --no-fade-in	
+hyprlock
+# hyprlock --no-fade-in --immediate-render
