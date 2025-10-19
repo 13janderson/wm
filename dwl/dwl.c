@@ -3336,6 +3336,8 @@ void tagmon(const Arg *arg) {
   Client *sel = focustop(selmon);
   if (sel) {
     setmon(sel, dirtomon(arg->i), 0);
+    // TODO: Sending something to another monitor
+    // does not apply our rules.
     focusmon(arg);
   }
 }
