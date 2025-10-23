@@ -88,7 +88,7 @@ static const Rule rules[] = {
        isfloating monitor */
     // {"spotify", NULL, 1 << 8, 1, 1, 0, -1}, /* Start spotify on ONLY tag "9"
     // */
-    {"chrome", "spotify", 1 << 8, 1, 1, -1,
+    {"chrome", "spotify", 1 << 8, 1, 1, 0,
      -1}, /* Start spotify on ONLY tag "9" */
     {"chrome", "youtube", 1 << 2, 1, 1, 0, -1},  /* Start yt on ONLY tag "3" */
     {"chrome", "whatsapp", 1 << 3, 1, 1, 0, -1}, /* Start wa on ONLY tag "4" */

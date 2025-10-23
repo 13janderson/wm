@@ -14,21 +14,24 @@ elif ((month >= 6 && month <= 8));  then season="Summer"
 else                                 season="Autumn"
 fi
 
+current=$(readlink "$HOME/wallpapers/wallpaper.jpg")
+new=$current
+
 case "$season" in
   Winter)
-    ln -sf $HOME/wallpapers/winter_wallpaper.jpg $HOME/wallpapers/wallpaper.jpg
+    new=$HOME/wallpapers/winter_wallpaper.jpg
     ;;
 
   Autumn)
-    ln -sf $HOME/wallpapers/autumn_wallpaper.jpg $HOME/wallpapers/wallpaper.jpg
+    new=$HOME/wallpapers/autumn_wallpaper.jpg
     ;;
 
   Spring)
-    ln -sf $HOME/wallpapers/spring_wallpaper.jpg $HOME/wallpapers/wallpaper.jpg
+    new=$HOME/wallpapers/spring_wallpaper.jpg
     ;;
 
   Summer)
-    ln -sf $HOME/wallpapers/summer_wallpaper.jpg $HOME/wallpapers/wallpaper.jpg
+    new=$HOME/wallpapers/summer_wallpaper.jpg
     ;;
 
   *)
@@ -36,6 +39,11 @@ case "$season" in
     ;;
 esac
 
-# Reload sway
-pkill swaybg
-swaybg -i "$HOME/wallpapers/wallpaper.jpg" &
+if [[ $new != $current ]]; then
+  # Reload sway
+  echo "Loading new wallpaper $current->$new"
+  ln -sf $new "$HOME/wallpapers/wallpaper.jpg"
+  pkill swaybg
+  swaybg -i "$HOME/wallpapers/wallpaper.jpg" & disown
+fi
+

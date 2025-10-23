@@ -3,10 +3,10 @@
 # Enable hotkey daemon
 swhks & swhkd & 
 
-slstatus -s | dwl -s "sh -c 'swaybg -i $HOME/wallpapers/wallpaper.jpg & source $HOME/wl/lock.sh &&'" >> $HOME/.dwl.log &
+slstatus -s | dwl -s "sh -c 'swaybg -i $HOME/wallpapers/wallpaper.jpg'" &
 
 source $HOME/wl/lock.sh
-source $HOME/wl/notif.sh >> .dunst.log
+# source $HOME/wl/notif.sh
 
 # Kill hotkey daemon so that it can
 # start back up again later in the event 
