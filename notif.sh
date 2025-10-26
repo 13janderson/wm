@@ -6,4 +6,4 @@ while [ ! -S "$XDG_RUNTIME_DIR/wayland-0" ]; do
 done
 
 echo "running dunst"
-nohup /usr/bin/dunst &
+/usr/bin/dunst & disown
