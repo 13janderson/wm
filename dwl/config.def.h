@@ -1,4 +1,5 @@
 /* Taken from https://github.com/djpohly/dwl/issues/466 */
+#include <xkbcommon/xkbcommon-keysyms.h>
 #define COLOR(hex)                                                             \
   {((hex >> 24) & 0xFF) / 255.0f, ((hex >> 16) & 0xFF) / 255.0f,               \
    ((hex >> 8) & 0xFF) / 255.0f, (hex & 0xFF) / 255.0f}
@@ -232,6 +233,17 @@ static const char *bemenucmd[] = {
 static const char *wmenucmd[] = {
     "wmenu-run", "-f", "JetBrainsMono Nerd Font 18", "-l", "10", NULL};
 
+static const char *player_next[] = {"playerctl", "next", NULL};
+static const char *player_prev[] = {"playerctl", "previous", NULL};
+static const char *player_toggle[] = {"playerctl", "play-pause", NULL};
+static const char *brightness_up[] = {"blight", "set", "+10%", NULL};
+static const char *brightness_down[] = {"blight", "set", "-10%", NULL};
+static const char *volume_up[] = {
+    "/home/janderson/.local/bin/scripts/volume/up.sh", NULL};
+static const char *volume_down[] = {
+    "/home/janderson/.local/bin/scripts/volume/down.sh", NULL};
+static const char *volume_mute[] = {"amixer", "set", "Master", "toggle", NULL};
+
 static const Key keys[] = {
     /* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
     /* modifier                  key                 function        argument */
@@ -290,6 +302,16 @@ static const Key keys[] = {
     TAGKEYS(XKB_KEY_8, XKB_KEY_asterisk, 7),
     TAGKEYS(XKB_KEY_9, XKB_KEY_parenleft, 8),
     {MODKEY | WLR_MODIFIER_SHIFT, XKB_KEY_Q, quit, {0}},
+    // Hotkeys
+    {0, XKB_KEY_XF86AudioNext, spawn, {.v = player_next}},
+    {0, XKB_KEY_XF86AudioPrev, spawn, {.v = player_prev}},
+    {0, XKB_KEY_XF86AudioStop, spawn, {.v = player_toggle}},
+    {0, XKB_KEY_XF86AudioMute, spawn, {.v = volume_mute}},
+    {0, XKB_KEY_XF86AudioLowerVolume, spawn, {.v = volume_down}},
+    {0, XKB_KEY_XF86AudioRaiseVolume, spawn, {.v = volume_up}},
+    {0, XKB_KEY_XF86AudioPlay, spawn, {.v = player_toggle}},
+    {0, XKB_KEY_XF86MonBrightnessUp, spawn, {.v = brightness_up}},
+    {0, XKB_KEY_XF86MonBrightnessDown, spawn, {.v = brightness_down}},
 
     /* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
     {WLR_MODIFIER_CTRL | WLR_MODIFIER_ALT, XKB_KEY_Terminate_Server, quit, {0}},
