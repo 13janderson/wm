@@ -242,7 +242,8 @@ static const char *volume_up[] = {
     "/home/janderson/.local/bin/scripts/volume/up.sh", NULL};
 static const char *volume_down[] = {
     "/home/janderson/.local/bin/scripts/volume/down.sh", NULL};
-static const char *volume_mute[] = {"amixer", "set", "Master", "toggle", NULL};
+static const char *volume_mute[] = {
+    "/home/janderson/.local/bin/scripts/volume/mute.sh", NULL};
 
 static const Key keys[] = {
     /* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
