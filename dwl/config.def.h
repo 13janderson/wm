@@ -93,10 +93,10 @@ static const Rule rules[] = {
      -1}, /* Start spotify on ONLY tag "9" */
     {"chrome", "youtube", 1 << 2, 1, 1, 0, -1},  /* Start yt on ONLY tag "3" */
     {"chrome", "whatsapp", 1 << 3, 1, 1, 0, -1}, /* Start wa on ONLY tag "4" */
-    {"chrome", "chatgpt", 1 << 1, 1, 0, 0,
-     -1}, /* Start chatgpt on ONLY tag "2" */
+    // {"chrome", "chatgpt", 1 << 1, 1, 0, 0,
+    //  -1}, /* Start chatgpt on ONLY tag "2" */
     // Just new tabs
-    {"chrome", NULL, 1 << 1, 1, 0, 0, -1}, /* Start chrome on ONLY tag "2" */
+    // {"chrome", NULL, 1 << 1, 1, 0, 0, -1}, /* Start chrome on ONLY tag "2" */
 };
 
 /* layout(s) */
@@ -220,7 +220,7 @@ static const char *browcmd[] = {"google-chrome-stable", NULL};
 static const char *ytcmd[] = {"google-chrome-stable",
                               "--app=https://youtube.com", NULL};
 static const char *aicmd[] = {"google-chrome-stable", "https://chatgpt.com",
-                              NULL};
+                              "--app=https://chatgpt.com", NULL};
 static const char *wacmd[] = {"google-chrome-stable",
                               "--app=https://web.whatsapp.com", NULL};
 static const char *spotcmd[] = {"google-chrome-stable",

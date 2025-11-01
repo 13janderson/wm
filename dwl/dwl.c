@@ -2038,24 +2038,31 @@ void drawbar(Monitor *m) {
     } else {
       drwl_setscheme(m->drw, colors[SchemeNorm]);
     }
-    drwl_text(m->drw, x, 0, w, m->b.height, m->lrpad / 2, tags[i],
-              urg & (1 << i));
     if (selected) {
-      const int ulh = 2; /* underline height (px) */
       drwl_setscheme(m->drw, colors[SchemeUnder]);
-      drwl_rect(m->drw, x, m->b.height - ulh, w, ulh, 1, 0);
+      int size = m->b.height / 2; // square side length
+      drwl_rect(m->drw,
+                x + m->lrpad / 2,         // keep x aligned
+                (m->b.height - size) / 2, // center vertically
+                size, size, 1, 0);
+    } else {
+      drwl_text(m->drw, x, 0, w, m->b.height, m->lrpad / 2, tags[i],
+                urg & (1 << i));
     }
+
     x += w;
   }
-  w = TEXTW(m, m->ltsymbol);
-  drwl_setscheme(m->drw, colors[SchemeNorm]);
-  x = drwl_text(m->drw, x, 0, w, m->b.height, m->lrpad / 2, m->ltsymbol, 0);
+
+  // w = TEXTW(m, m->ltsymbol);
+  // drwl_setscheme(m->drw, colors[SchemeNorm]);
+  // x = drwl_text(m->drw, x, 0, w, m->b.height, m->lrpad / 2, m->ltsymbol, 0);
 
   if ((w = m->b.width - tw - x) > m->b.height) {
     if (c) {
       drwl_setscheme(m->drw, colors[m == selmon ? SchemeSel : SchemeNorm]);
-      drwl_text(m->drw, x, 0, w, m->b.height, m->lrpad / 2, client_get_title(c),
-                0);
+      // drwl_text(m->drw, x, 0, w, m->b.height, m->lrpad / 2,
+      // client_get_title(c),
+      //           0);
     } else {
       drwl_setscheme(m->drw, colors[SchemeNorm]);
     }
@@ -3336,9 +3343,10 @@ void tagmon(const Arg *arg) {
   Client *sel = focustop(selmon);
   if (sel) {
     setmon(sel, dirtomon(arg->i), 0);
+    focusmon(arg);
+    // applyrules(sel, false, true);
     // TODO: Sending something to another monitor
     // does not apply our rules.
-    focusmon(arg);
   }
 }
 
@@ -3474,13 +3482,15 @@ void unmapnotify(struct wl_listener *listener, void *data) {
     wl_list_remove(&c->flink);
   }
 
-  if (c->switchtotag) {
-    Arg a = {.ui = c->switchtotag};
-    // Call view() -> arrange() -> checkidleinhibitor() before
-    // wlr_scene_node_destroy() to prevent a rare use after free of
-    // tree->node.
-    view(&a);
-  }
+  // Removed this to stop switchtotag behaviour when closing something
+  // in a tag that we were previously automatically switched to.
+  // if (c->switchtotag) {
+  //   Arg a = {.ui = c->switchtotag};
+  //   // Call view() -> arrange() -> checkidleinhibitor() before
+  //   // wlr_scene_node_destroy() to prevent a rare use after free of
+  //   // tree->node.
+  //   view(&a);
+  // }
 
   wlr_scene_node_destroy(&c->scene->node);
   drawbars();
